@@ -35,10 +35,14 @@ bool Game::Initialize()
 	inputManager = InputManager::getInstance();
 
 	emitter = new Emitter(
-		100,
+		1000,
 		10,
-		100.0f,
-		1000.0f
+		10.0f,
+		1000.0f,
+		XMFLOAT3(0.0f, 1.0f, 0.0f),
+		XMFLOAT3(0.0f, 2.0f, 0.0f),
+		XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),
+		XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f)
 	);
 
 	BuildUAVs();
@@ -271,11 +275,14 @@ void Game::UpdateMainPassCB(const Timer &timer)
 	auto currentTimeCB = currentFrameResource->TimeCB.get();
 	currentTimeCB->CopyData(0, MainTimeCB);
 
-	MainParticleCB.EmitCount = min(emitter->GetEmitCount(), 65535);
+	MainParticleCB.EmitCount = emitter->GetEmitCount();
+	MainParticleCB.MaxParticles = emitter->GetMaxParticles();
 	MainParticleCB.GridSize = emitter->GetGridSize();
 	MainParticleCB.LifeTime = emitter->GetLifeTime();
-	MainParticleCB.MaxParticles = emitter->GetMaxParticles();
-	MainParticleCB.VerticesPerParticle = 1;
+	MainParticleCB.velocity = emitter->GetVelocity();
+	MainParticleCB.acceleration = emitter->GetAcceleration();
+	MainParticleCB.startColor = emitter->GetStartColor();
+	MainParticleCB.endColor = emitter->GetEndColor();
 
 	auto currentParticleCB = currentFrameResource->ParticleCB.get();
 	currentParticleCB->CopyData(0, MainParticleCB);

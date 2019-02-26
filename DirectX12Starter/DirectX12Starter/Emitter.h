@@ -22,7 +22,14 @@ struct ParticleSort
 class Emitter
 {
 public:
-	Emitter(int maxParticles, int gridSize, float emissionRate, float lifeTime);
+	Emitter(int maxParticles,
+		int gridSize,
+		float emissionRate,
+		float lifeTime,
+		DirectX::XMFLOAT3 velocity,
+		DirectX::XMFLOAT3 acceleration,
+		DirectX::XMFLOAT4 startColor,
+		DirectX::XMFLOAT4 endColor);
 	~Emitter();
 
 	int GetEmitCount();
@@ -32,6 +39,10 @@ public:
 	float GetLifeTime();
 	float GetEmitTimeCounter();
 	float GetTimeBetweenEmit();
+	DirectX::XMFLOAT3 GetVelocity();
+	DirectX::XMFLOAT3 GetAcceleration();
+	DirectX::XMFLOAT4 GetStartColor();
+	DirectX::XMFLOAT4 GetEndColor();
 
 	void SetEmitCount(int value);
 	void SetEmitTimeCounter(float value);
@@ -47,6 +58,10 @@ private:
 	float emissionRate;
 	float timeBetweenEmit;
 	float emitTimeCounter;
+	DirectX::XMFLOAT3 velocity;
+	DirectX::XMFLOAT3 acceleration;
+	DirectX::XMFLOAT4 startColor;
+	DirectX::XMFLOAT4 endColor;
 };
 
 	

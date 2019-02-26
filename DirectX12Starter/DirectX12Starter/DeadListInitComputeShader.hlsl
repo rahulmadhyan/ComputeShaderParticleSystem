@@ -20,8 +20,11 @@ cbuffer particleData : register(b2)
 	int emitCount;
 	int maxParticles;
 	int gridSize;
-	int verticesPerParticle;
 	float lifeTime;
+	float3 velocity;
+	float3 acceleration;
+	float4 startColor;
+	float4 endColor;
 }
 
 RWStructuredBuffer<Particle> ParticlePool		: register(u0);
