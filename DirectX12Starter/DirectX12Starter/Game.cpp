@@ -35,14 +35,14 @@ bool Game::Initialize()
 	inputManager = InputManager::getInstance();
 
 	emitter = new Emitter(
-		1000,
-		10,
-		1000.0f,
-		10.0f,
-		XMFLOAT3(0.0f, 1.0f, 0.0f),
-		XMFLOAT3(0.0f, 2.0f, 0.0f),
-		XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),
-		XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f)
+		1000000,
+		1,
+		100000.0f,
+		100.0f,
+		XMFLOAT3(1.0f, 1.0f, -5.0f),
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT4(0.85f, 0.85f, 0.85f, 1.0f),
+		XMFLOAT4(0.5f, 0.5f, 0.5f, 0.8f)
 	);
 
 	BuildUAVs();
