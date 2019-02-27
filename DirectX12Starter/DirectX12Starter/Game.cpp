@@ -566,7 +566,6 @@ void Game::BuildPSOs()
 {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC opaquePSODescription;
 	ZeroMemory(&opaquePSODescription, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
-	//opaquePSODescription.InputLayout = { inputLayout.data(), (UINT)inputLayout.size() };
 	opaquePSODescription.pRootSignature = rootSignature.Get();
 	opaquePSODescription.VS =
 	{
@@ -583,10 +582,26 @@ void Game::BuildPSOs()
 		reinterpret_cast<BYTE*>(Shaders["GS"]->GetBufferPointer()),
 		Shaders["GS"]->GetBufferSize()
 	};
+
+	D3D12_RENDER_TARGET_BLEND_DESC transparencyBlendDesc = {};
+	transparencyBlendDesc.BlendEnable = true;
+	transparencyBlendDesc.BlendOp = D3D12_BLEND_OP_ADD;
+	transparencyBlendDesc.SrcBlend = D3D12_BLEND_ONE;
+	transparencyBlendDesc.DestBlend = D3D12_BLEND_ONE;
+	transparencyBlendDesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	transparencyBlendDesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+	transparencyBlendDesc.DestBlendAlpha = D3D12_BLEND_ONE;
+	transparencyBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+	D3D12_DEPTH_STENCIL_DESC depth;
+	depth.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	depth.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
+	depth.DepthEnable = true;
+
 	opaquePSODescription.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	opaquePSODescription.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;
-	opaquePSODescription.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-	opaquePSODescription.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	opaquePSODescription.BlendState.RenderTarget[0] = transparencyBlendDesc;
+	opaquePSODescription.DepthStencilState = depth;
 	opaquePSODescription.SampleMask = UINT_MAX;
 	opaquePSODescription.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 	opaquePSODescription.NumRenderTargets = 1;

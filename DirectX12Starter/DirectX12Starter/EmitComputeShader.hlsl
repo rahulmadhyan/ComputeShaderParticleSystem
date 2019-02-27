@@ -55,10 +55,9 @@ void main(uint id : SV_DispatchThreadID )
 	//color and position depend on the grid position and size
 	emitParticle.Position = gridPosition / 10.0f - float3(gridSize / 20.0f, gridSize / 20.0f, -gridSize / 10.0f);
 	emitParticle.Velocity = float3(0.0f, 0.0f, 0.0f);
-	//emitParticle.Color = float4(gridPosition / gridSize, 1);
 	emitParticle.Color = startColor;
 	emitParticle.Age = 0.0f;
-	emitParticle.Size = 0.05f;
+	emitParticle.Size = 0.5f;
 	emitParticle.Alive = 1.0f;
 
 	//Put it back
