@@ -17,14 +17,15 @@ cbuffer timeData : register(b1)
 
 cbuffer particleData : register(b2)
 {
+	float4 startColor;
+	float4 endColor;
+	float3 velocity;
+	float lifeTime;
+	float3 acceleration;
+	float pad;
 	int emitCount;
 	int maxParticles;
 	int gridSize;
-	float lifeTime;
-	float3 velocity;
-	float3 acceleration;
-	float4 startColor;
-	float4 endColor;
 }
 
 RWStructuredBuffer<Particle> ParticlePool		: register(u0);
@@ -46,6 +47,9 @@ void main(uint id : SV_DispatchThreadID)
 	particle.Age += deltaTime;
 	particle.Alive = (float)(particle.Age < lifeTime);
 	
+	float agePercent = particle.Age / lifeTime;
+	particle.Color = lerp(startColor, endColor, agePercent);
+
 	particle.Position += particle.Velocity * deltaTime;
 	
 	// generate the particle's new velocity using 3D curl noise plugging its position into the noise function will giveus the velocity at that position - kind of like a flow field

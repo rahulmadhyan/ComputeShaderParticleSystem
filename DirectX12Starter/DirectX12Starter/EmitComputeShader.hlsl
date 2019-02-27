@@ -17,14 +17,15 @@ cbuffer timeData : register(b1)
 
 cbuffer particleData : register(b2)
 {
+	float4 startColor;
+	float4 endColor;
+	float3 velocity;
+	float lifeTime;
+	float3 acceleration;
+	float pad;
 	int emitCount;
 	int maxParticles;
 	int gridSize;
-	float lifeTime;
-	float3 velocity;
-	float3 acceleration;
-	float4 startColor;
-	float4 endColor;
 }
 
 RWStructuredBuffer<Particle> ParticlePool		: register(u0);
@@ -54,7 +55,8 @@ void main(uint id : SV_DispatchThreadID )
 	//color and position depend on the grid position and size
 	emitParticle.Position = gridPosition / 10.0f - float3(gridSize / 20.0f, gridSize / 20.0f, -gridSize / 10.0f);
 	emitParticle.Velocity = float3(0.0f, 0.0f, 0.0f);
-	emitParticle.Color = float4(gridPosition / gridSize, 1);
+	//emitParticle.Color = float4(gridPosition / gridSize, 1);
+	emitParticle.Color = startColor;
 	emitParticle.Age = 0.0f;
 	emitParticle.Size = 0.05f;
 	emitParticle.Alive = 1.0f;

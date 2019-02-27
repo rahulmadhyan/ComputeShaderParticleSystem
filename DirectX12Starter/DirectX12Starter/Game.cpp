@@ -37,8 +37,8 @@ bool Game::Initialize()
 	emitter = new Emitter(
 		1000,
 		10,
-		10.0f,
 		1000.0f,
+		10.0f,
 		XMFLOAT3(0.0f, 1.0f, 0.0f),
 		XMFLOAT3(0.0f, 2.0f, 0.0f),
 		XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f),

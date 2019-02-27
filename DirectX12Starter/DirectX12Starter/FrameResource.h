@@ -20,14 +20,15 @@ struct TimeConstants
 
 struct ParticleConstants
 {
+	DirectX::XMFLOAT4 startColor;
+	DirectX::XMFLOAT4 endColor;
+	DirectX::XMFLOAT3 velocity;
+	float LifeTime = 0.0f;
+	DirectX::XMFLOAT3 acceleration;
+	float pad;
 	int EmitCount = 0;
 	int MaxParticles = 0;
 	int GridSize = 0;
-	float LifeTime = 0.0f;
-	DirectX::XMFLOAT3 velocity;
-	DirectX::XMFLOAT3 acceleration;
-	DirectX::XMFLOAT4 startColor;
-	DirectX::XMFLOAT4 endColor;
 };
 
 // stores the resources needed for the CPU to build the command lists for a frame 
