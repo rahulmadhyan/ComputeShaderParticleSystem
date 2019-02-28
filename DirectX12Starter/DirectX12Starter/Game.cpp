@@ -42,7 +42,7 @@ bool Game::Initialize()
 		XMFLOAT3(1.0f, 1.0f, -5.0f),
 		XMFLOAT3(0.0f, 0.0f, 0.0f),
 		XMFLOAT4(0.85f, 0.85f, 0.85f, 1.0f),
-		XMFLOAT4(0.5f, 0.5f, 0.5f, 0.8f)
+		XMFLOAT4(0.5f, 0.5f, 0.5f, 0.3f)
 	);
 
 	BuildUAVs();
@@ -139,9 +139,6 @@ void Game::Draw(const Timer &timer)
 
 	ThrowIfFailed(CommandList->Reset(currentCommandListAllocator.Get(), PSOs["opaque"].Get()));
 
-	CommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(RWDrawArgs.Get(),
-		D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
-
 	CommandList->SetPipelineState(PSOs["particleEmit"].Get());
 	CommandList->SetComputeRootSignature(particleRootSignature.Get());
 
@@ -229,6 +226,9 @@ void Game::Draw(const Timer &timer)
 		0,
 		nullptr,
 		0);
+
+	CommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(RWDrawArgs.Get(),
+		D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT, D3D12_RESOURCE_STATE_UNORDERED_ACCESS));
 
 	// indicate a state transition on the resource usage
 	CommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(CurrentBackBuffer(),
@@ -418,7 +418,7 @@ void Game::BuildUAVs()
 			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
 			D3D12_HEAP_FLAG_NONE,
 			&CD3DX12_RESOURCE_DESC::Buffer(countBufferOffset + sizeof(UINT), D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS),
-			D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT,
+			D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
 			nullptr,
 			IID_PPV_ARGS(&RWDrawArgs)));
 		RWDrawArgs.Get()->SetName(L"DrawArgs");
