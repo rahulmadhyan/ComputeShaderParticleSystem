@@ -593,7 +593,7 @@ void Game::BuildPSOs()
 	transparencyBlendDesc.DestBlendAlpha = D3D12_BLEND_ONE;
 	transparencyBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
-	D3D12_DEPTH_STENCIL_DESC depth;
+	D3D12_DEPTH_STENCIL_DESC depth = {};
 	depth.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	depth.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
 	depth.DepthEnable = true;
