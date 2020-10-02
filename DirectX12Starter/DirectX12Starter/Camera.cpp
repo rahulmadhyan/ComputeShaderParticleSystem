@@ -7,7 +7,7 @@ Camera::Camera()
 
 Camera::Camera(unsigned int width, unsigned int height)
 {
-	XMVECTOR pos = XMVectorSet(0, 5, -25, 0);
+	XMVECTOR pos = XMVectorSet(0.0f, -10.0f, -150.0f, 0.0f);
 	XMVECTOR dir = XMVectorSet(0, 0, 1, 0);
 	XMVECTOR up = XMVectorSet(0, 1, 0, 0);
 
@@ -67,7 +67,7 @@ void Camera::Update()
 
 	XMVECTOR pos = XMLoadFloat3(&position);
 
-	float moveRate = 0.001f;
+	float moveRate = 10.0f;
 
 	if (InputManager::getInstance()->isKeyPressed('W') || InputManager::getInstance()->isControllerButtonPressed(XINPUT_GAMEPAD_Y))
 	{
@@ -110,7 +110,7 @@ void Camera::Update()
 
 void Camera::ResetCamera()
 {
-	XMVECTOR pos = XMVectorSet(0, 0, -5, 0);
+	XMVECTOR pos = XMVectorSet(0.0f, -10.0f, -150.0f, 0.0f);
 	XMStoreFloat3(&position, pos);
 	xRotation = 0.0f;
 	yRotation = 0.0f;

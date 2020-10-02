@@ -36,13 +36,13 @@ bool Game::Initialize()
 
 	emitter = new Emitter(
 		1000000,
-		1,
-		100000.0f,
-		100.0f,
-		XMFLOAT3(1.0f, 1.0f, -5.0f),
+		100,
+		1000000.0f, // Particles per second
+		1000.0f, // Particle lifetime
 		XMFLOAT3(0.0f, 0.0f, 0.0f),
-		XMFLOAT4(0.85f, 0.85f, 0.85f, 1.0f),
-		XMFLOAT4(0.5f, 0.5f, 0.5f, 0.3f)
+		XMFLOAT3(0.0f, 0.0f, 0.0f),
+		XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f),
+		XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f)
 	);
 
 	BuildUAVs();
@@ -124,7 +124,7 @@ void Game::Update(const Timer &timer)
 		WaitForSingleObject(eventHandle, INFINITE);
 		CloseHandle(eventHandle);
 	}
-
+	
 	emitter->Update(timer.GetTotalTime(), timer.GetTotalTime());
 	UpdateMainPassCB(timer);
 }
@@ -281,8 +281,6 @@ void Game::UpdateMainPassCB(const Timer &timer)
 	MainParticleCB.LifeTime = emitter->GetLifeTime();
 	MainParticleCB.velocity = emitter->GetVelocity();
 	MainParticleCB.acceleration = emitter->GetAcceleration();
-	MainParticleCB.startColor = emitter->GetStartColor();
-	MainParticleCB.endColor = emitter->GetEndColor();
 
 	auto currentParticleCB = currentFrameResource->ParticleCB.get();
 	currentParticleCB->CopyData(0, MainParticleCB);
@@ -596,7 +594,7 @@ void Game::BuildPSOs()
 	D3D12_DEPTH_STENCIL_DESC depth = {};
 	depth.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	depth.DepthFunc = D3D12_COMPARISON_FUNC_LESS;
-	depth.DepthEnable = true;
+	depth.DepthEnable = true;	
 
 	opaquePSODescription.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	opaquePSODescription.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID;

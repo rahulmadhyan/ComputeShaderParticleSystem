@@ -45,11 +45,9 @@ void main(uint id : SV_DispatchThreadID)
 		return;
 
 	particle.Age += deltaTime;
+	
 	particle.Alive = (float)(particle.Age < lifeTime);
 	
-	float agePercent = particle.Age / lifeTime;
-	particle.Color = lerp(startColor, endColor, agePercent);
-
 	particle.Position += particle.Velocity * deltaTime;
 	
 	// generate the particle's new velocity using 3D curl noise plugging its position into the noise function will giveus the velocity at that position - kind of like a flow field
