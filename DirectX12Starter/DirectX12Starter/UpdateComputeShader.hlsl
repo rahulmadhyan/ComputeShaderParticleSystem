@@ -50,7 +50,6 @@ void main(uint id : SV_DispatchThreadID)
 	
 	particle.Position += particle.Velocity * deltaTime;
 	
-	// generate the particle's new velocity using 3D curl noise plugging its position into the noise function will giveus the velocity at that position - kind of like a flow field
 	float3 curlPosition = particle.Position * 0.1f;
 	float3 curlVelocity = curlNoise3D(curlPosition, 1.0f);
 	particle.Velocity = curlVelocity * 2;
